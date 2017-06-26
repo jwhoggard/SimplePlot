@@ -1,0 +1,46 @@
+---
+title: "Plotly Example"
+author: "John W. Hoggard"
+date: "6/26/2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Simple Plot Example: 6/26/17
+From the `mtcars` data set:  Weight vs. MPG, split by transmission type. (Code on next slide.)
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+data(mtcars)
+library(plotly)
+mtcars$am <- factor(mtcars$am, labels=c("Automatic", "Manual"))
+mtcars$car.name <- rownames(mtcars)
+plot_ly(mtcars, x=~wt, y=~mpg, color=~factor(am), colors=c("#E69F00", "#56B4E9"), type="scatter", mode="markers",
+        size=I(10), 
+        text = ~paste(car.name, '<br>Weight: ', wt, 
+                      'K pounds', '<br>', mpg, ' MPG', sep="")) %>%
+     layout(xaxis=list(title="Weight (thousand pounds)"),
+            yaxis=list(title="MPG"), 
+            title="MPG vs. Weight: mtcars data set")
+```
+
+
+## Code
+```{r, eval=FALSE, echo=TRUE}
+data(mtcars)
+library(plotly)
+mtcars$am <- factor(mtcars$am, labels=c("Automatic", "Manual"))
+mtcars$car.name <- rownames(mtcars)
+plot_ly(mtcars, x=~wt, y=~mpg, color=~factor(am), 
+        colors=c("#E69F00", "#56B4E9"), 
+        type="scatter", mode="markers", size=I(10), 
+        text = ~paste(car.name, '<br>Weight: ', wt, 
+                      'K pounds', 
+                      '<br>', mpg, ' MPG', 
+                      sep="")
+        ) %>%
+     layout(xaxis=list(title="Weight (thousand pounds)"),
+            yaxis=list(title="MPG"), 
+            title="MPG vs. Weight: mtcars data set")
+```
